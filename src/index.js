@@ -3,6 +3,7 @@ import express from 'express';
 import route from './routes/publicRoute.js';
 const app = express();
 import cors from 'cors';
+import mongoose from "mongoose";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -13,6 +14,12 @@ app.use(cors({
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
   }));
+
+mongoose.connect(process.env.CONNECTION_STRING_MDB, {
+  useNewUrlParser: true
+})
+  .then(() => console.log("MongoDb is connected"))
+  .catch(err => console.log(err))
 
 app.use('/', route);
 
