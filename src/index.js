@@ -4,6 +4,7 @@ import route from './routes/publicRoute.js';
 const app = express();
 import cors from 'cors';
 import mongoose from "mongoose";
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -15,14 +16,16 @@ app.use(cors({
     credentials: true,
   }));
 
-mongoose.connect(process.env.CONNECTION_STRING_MDB, {
-  useNewUrlParser: true
+const URL = process.env.CONNECTION_STRING_MDB;
+mongoose.connect(URL, {
+  useNewUrlParser: true,
+  // useUnifiedTopology:true
 })
   .then(() => console.log("MongoDb is connected"))
   .catch(err => console.log(err))
 
 app.use('/', route);
-
-app.listen(process.env.PORT || 4000, function () {
-    console.log('Express app running on port ' + (process.env.PORT||4000));
+const PORT = 4000;
+app.listen(PORT || 4000, function () {
+    console.log('Express app running on port ' + (PORT||4000));
 });
