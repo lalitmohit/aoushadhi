@@ -4,9 +4,10 @@ import {productModel } from '../../models/productModel.js';
 const itemId= "123crf";
 export const product_data_get = async (req,res)=>{
     try{
-        const get_product_data =  await productModel.find({item_id: itemId});
+        const get_product_data =  await productModel.find();
+        console.log(get_product_data);
         return res.json(get_product_data)
-    }catch(err){
+    } catch(err){
         return res.status(500).send({status:false,error:err.message})
     }
 }
@@ -15,15 +16,15 @@ export const product_data_post = async (req, res) => {
     try {
     //   const { custid, email, mobile, password } = req.body;
       const data = {
-        item_id:"123crf",
-        user_id: "12140970",
-        item_name: "Capeline",
-        Brand: "Cappllel",
-        manufacturing_date:12/11/2023,
-        expiry_date: 12/11/2025,
-        price:"5000",
-        discount:"25",
-        type:"Ayurveda",
+        item_id:"123crf12",
+        user_id: "12140971",
+        item_name: "PCM",
+        Brand: "Cappllel1",
+        manufacturing_date:"12/12/2024",
+        expiry_date: "12/12/2025",
+        price:"500",
+        discount:"50",
+        type:"Ayurveda2",
         
       }
     //   console.log(data);
