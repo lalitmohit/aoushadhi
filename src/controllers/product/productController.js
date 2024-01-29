@@ -1,10 +1,22 @@
 import "dotenv/config";
 import {productModel } from '../../models/productModel.js';
 
-const itemId= "123crf";
+
+export const get_all_products = async(req,res)=>{
+  try{
+    const get_all_products = await productModel.find({});
+    return res.json(get_all_products)
+  }catch(err){
+    return res.status(500).send({status:false,error:err.message})
+  }
+}
+
 export const product_data_get = async (req,res)=>{
     try{
-        const get_product_data =  await productModel.find({item_id: itemId});
+        // const productId= "123crf";
+        const {productId} = req.body;
+        console.log(productId);
+        const get_product_data =  await productModel.find({productId: productId});
         return res.json(get_product_data)
     }catch(err){
         return res.status(500).send({status:false,error:err.message})
@@ -13,20 +25,19 @@ export const product_data_get = async (req,res)=>{
 
 export const product_data_post = async (req, res) => {
     try {
-    //   const { custid, email, mobile, password } = req.body;
+      const { productId,userId,product_name,brand,manufacturing_date,expiry_date,price,item_dimension} = req.body;
+
       const data = {
-        item_id:"123crf",
-        user_id: "12140970",
-        item_name: "Capeline",
-        Brand: "Cappllel",
-        manufacturing_date:12/11/2023,
-        expiry_date: 12/11/2025,
-        price:"5000",
-        discount:"25",
-        type:"Ayurveda",
-        
+        productId:productId,
+        userId:userId,
+        product_name:product_name,
+        brand:brand,
+        manufacturing_date:manufacturing_date,
+        expiry_date:expiry_date,
+        price:price,
+        item_dimension:item_dimension
       }
-    //   console.log(data);
+      // console.log(data);
       await productModel.create(data);
       return res.status(200).json({
         status: true,
@@ -56,8 +67,8 @@ export const product_data_del = async(req,res)=>{
 
 export const product_data_update = async(req,res)=>{
     try{
-        const item_id = "123crf";
-        const filter = { item_id: item_id };
+        const product_id = "123crf";
+        const filter = { item_id: product_id };
         const update = { $set: {Brand:"Paracetamol"} };
         const result= await productModel.updateOne(filter, update);
         if (result.modifiedCount === 1) {
