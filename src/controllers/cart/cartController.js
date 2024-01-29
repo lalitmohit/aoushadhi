@@ -18,12 +18,14 @@ export const cart_data_get = async (req,res)=>{
 
 export const cart_data_post = async (req, res) => {
     try {
-    //   const { custid, email, mobile, password } = req.body;
+      // const { custid, email, mobile, password } = req.body;
+      // const data = req.body;
       const data = {
-        user_id: "12140970",
-        cart_id:"kej2323",
-        total_quantity: "20",
-        total_price: "1000"
+        user_id: "12140990",
+        cart_id:"kej23452323",
+        total_quantity: "620",
+        total_price: "100000",
+        
       }
     //   console.log(data);
       await cartModel.create(data);
@@ -57,7 +59,7 @@ export const cart_data_update = async(req,res)=>{
     try{
         const cart_id = "kej2323";
         const filter = { cart_id: cart_id };
-        const update = { $set: {total_quantity:"40"} };
+        const update = { $set: {total_quantity:"90"} };
         const result= await cartModel.updateOne(filter, update);
         if (result.modifiedCount === 1) {
             console.log('Document updated successfully');

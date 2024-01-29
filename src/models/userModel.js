@@ -14,22 +14,22 @@ const userSchema = new mongoose.Schema(
     profileImage: { type: String, required: false, trim: true },
     phone: { type: String, required: true, unique: true },
     user_id: { type: String, required: true, unique: true },
-    cart_id: { type: String, required: false, unique: true },
-    total_quantity: { type: String, required: false, unique: true },
-    total_price: { type: String, required: false, unique: true },
+    // cart_id: { type: String, required: false, unique: true },
+    // total_quantity: { type: String, required: false, unique: false },
+    // total_price: { type: String, required: false, unique: false },
     password: { type: String, required: true, trim: true },
-    address: {
-      shipping: {
-        street: { type: String, required: false, trim: true },
-        city: { type: String, required: false, trim: true },
-        pincode: { type: Number, required: false, trim: true },
-      },
-      billing: {
-        street: { type: String, required: false, trim: true },
-        city: { type: String, required: false, trim: true },
-        pincode: { type: Number, required: false, trim: true },
-      },
-    },
+    // address: {
+    //   shipping: {
+    //     street: { type: String, required: false, trim: true },
+    //     city: { type: String, required: false, trim: true },
+    //     pincode: { type: Number, required: false, trim: true },
+    //   },
+    //   billing: {
+    //     street: { type: String, required: false, trim: true },
+    //     city: { type: String, required: false, trim: true },
+    //     pincode: { type: Number, required: false, trim: true },
+    //   },
+    // },
   },
   { timestamps: true }
 );

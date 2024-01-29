@@ -18,7 +18,8 @@ app.use(cors({
   credentials: true,
 }));
 
-const URL = process.env.CONNECTION_STRING_MDB;
+
+// const URL = process.env.CONNECTION_STRING_MDB;
 mongoose.connect(URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
