@@ -15,8 +15,9 @@ export const product_data_get = async (req,res)=>{
     try{
 
         // const productId= "123crf";
-        const {productId} = req.body;
-        console.log(productId);
+        // const {productId} = req.body;
+        const productId = req.query.productId;
+        // console.log(productId);
         const get_product_data =  await productModel.find({productId: productId});
         return res.json(get_product_data)
     } catch(err){
@@ -39,7 +40,7 @@ export const product_data_post = async (req, res) => {
         price:price,
         item_dimension:item_dimension
       }
-      // console.log(data);
+      console.log(data);
       await productModel.create(data);
       return res.status(200).json({
         status: true,
