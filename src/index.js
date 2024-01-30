@@ -16,7 +16,7 @@ app.use(cors({
     credentials: true,
   }));
 
-
+// const URL = "sdfdjk"
 // const URL = process.env.CONNECTION_STRING_MDB;
 mongoose.connect(URL, {
   useNewUrlParser: true,
