@@ -17,6 +17,7 @@ export const product_data_get = async (req,res)=>{
         // const productId= "123crf";
         // const {productId} = req.body;
         const productId = req.query.productId;
+        // const userId = req.query.userId;
         // console.log(productId);
         const get_product_data =  await productModel.find({productId: productId});
         return res.json(get_product_data)
@@ -27,7 +28,7 @@ export const product_data_get = async (req,res)=>{
 
 export const product_data_post = async (req, res) => {
     try {
-      const { productId,userId,product_name,brand,manufacturing_date,expiry_date,price,item_dimension} = req.body;
+      const { productId,userId,product_name,brand,price} = req.body;
 
       const data = {
 
@@ -35,10 +36,10 @@ export const product_data_post = async (req, res) => {
         userId:userId,
         product_name:product_name,
         brand:brand,
-        manufacturing_date:manufacturing_date,
-        expiry_date:expiry_date,
+        // manufacturing_date:manufacturing_date,
+        // expiry_date:expiry_date,
         price:price,
-        item_dimension:item_dimension
+        // item_dimension:item_dimension
       }
       console.log(data);
       await productModel.create(data);
@@ -54,8 +55,9 @@ export const product_data_post = async (req, res) => {
 
 export const product_data_del = async(req,res)=>{
     try{
-        const item_id = "wker2434vc";
-        const result= await productModel.deleteOne({ item_id: item_id });
+        // const item_id = "wker2434vc";
+        const {productId} = req.body
+        const result= await productModel.deleteOne({ productId: productId });
         if (result.deletedCount > 0) {
             console.log("Product info deleted successfully");
             return res.status(200).send("Product info Deleted Successfully")

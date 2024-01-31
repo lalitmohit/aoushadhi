@@ -6,8 +6,9 @@ import {cartModel } from '../../models/cartModel.js';
 // import { authenticateToken } from "../../middlewares/auth.js";
 
 // import bcrypt from 'bcrypt';
-const userId= "12140970"
+// const userId= "12140970"
 export const cart_data_get = async (req,res)=>{
+  const userId = req.query.userId;
     try{
         const getUser =  await cartModel.find({user_id: userId});
         return res.json(getUser)
