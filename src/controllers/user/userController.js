@@ -98,7 +98,59 @@ export const loginUser = async (req, res) => {
   }
 }
 
-export const token = async (req, res) => {
+
+export const user_update = async(req,res)=>{
+  try{
+    
+    const userId=req.body.userId;
+    const mobile = req.body.mobile;
+    const email = req.body.email;
+
+      console.log(userId);
+      console.log(mobile);
+      console.log(email);
+      const filter = { user_id: userId };
+      const update = { $set: {email:email,phone:mobile,} };
+      const result= await userModel.updateOne(filter, update);
+      if (result.modifiedCount === 1) {
+          console.log('details updated successfully');
+          return res.status(200).send("details updated Successfully")
+        } else {
+          console.log('user not found or no changes made');
+          return res.status(401).send("Error in updating ")
+        }
+  }catch(err){
+      return res.status(500).send({status:"false",error:err.message})
+  }
+}
+
+
+export const password_update = async(req,res)=>{
+  try{
+    
+    const userId=req.body.userId;
+    const new_password = req.body.new_password;
+      console.log(userId);
+
+      const filter = { user_id: userId };
+      const new_hashedpassword = await bcrypt.hash(new_password, saltRound);
+      const update = { $set: {password:new_hashedpassword} };
+      const result= await userModel.updateOne(filter, update);
+      if (result.modifiedCount === 1) {
+          console.log('password updated successfully');
+          return res.status(200).send("password updated Successfully")
+        } else {
+          console.log('user not found or no changes made');
+          return res.status(401).send("Error in updating ")
+        }
+  }catch(err){
+      return res.status(500).send({status:"false",error:err.message})
+  }
+}
+
+
+export const token = async (req,res)=>{
+
   const refreshToken = req.body.refreshToken
   if (refreshToken == null) return res.sendStatus(401)
   if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
