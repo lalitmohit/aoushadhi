@@ -1,11 +1,24 @@
 import "dotenv/config";
 import {productModel } from '../../models/productModel.js';
 
-const itemId= "123crf";
+
+export const get_all_products = async(req,res)=>{
+  try{
+    const get_all_products = await productModel.find({});
+    return res.json(get_all_products)
+  }catch(err){
+    return res.status(500).send({status:false,error:err.message})
+  }
+}
+
 export const product_data_get = async (req,res)=>{
     try{
-        const get_product_data =  await productModel.find();
-        console.log(get_product_data);
+        // const productId= "123crf";
+        // const {productId} = req.body;
+        const productId = req.query.productId;
+        // const userId = req.query.userId;
+        // console.log(productId);
+        const get_product_data =  await productModel.find({productId: productId});
         return res.json(get_product_data)
     } catch(err){
         return res.status(500).send({status:false,error:err.message})
@@ -14,20 +27,30 @@ export const product_data_get = async (req,res)=>{
 
 export const product_data_post = async (req, res) => {
     try {
-    //   const { custid, email, mobile, password } = req.body;
+      const { productId,userId,product_name,brand,price} = req.body;
+
       const data = {
-        item_id:"123crf12",
-        user_id: "12140971",
-        item_name: "PCM",
-        Brand: "Cappllel1",
-        manufacturing_date:"12/12/2024",
-        expiry_date: "12/12/2025",
-        price:"500",
-        discount:"50",
-        type:"Ayurveda2",
+
+        // item_id:"123crf12",
+        // user_id: "12140971",
+        // item_name: "PCM",
+        // Brand: "Cappllel1",
+        // manufacturing_date:"12/12/2024",
+        // expiry_date: "12/12/2025",
+        // price:"500",
+        // discount:"50",
+        // type:"Ayurveda2",
         
+        productId:productId,
+        userId:userId,
+        product_name:product_name,
+        brand:brand,
+        // manufacturing_date:manufacturing_date,
+        // expiry_date:expiry_date,
+        price:price,
+        // item_dimension:item_dimension
       }
-    //   console.log(data);
+      console.log(data);
       await productModel.create(data);
       return res.status(200).json({
         status: true,
@@ -41,8 +64,9 @@ export const product_data_post = async (req, res) => {
 
 export const product_data_del = async(req,res)=>{
     try{
-        const item_id = "wker2434vc";
-        const result= await productModel.deleteOne({ item_id: item_id });
+        // const item_id = "wker2434vc";
+        const {productId} = req.body
+        const result= await productModel.deleteOne({ productId: productId });
         if (result.deletedCount > 0) {
             console.log("Product info deleted successfully");
             return res.status(200).send("Product info Deleted Successfully")
@@ -57,8 +81,8 @@ export const product_data_del = async(req,res)=>{
 
 export const product_data_update = async(req,res)=>{
     try{
-        const item_id = "123crf";
-        const filter = { item_id: item_id };
+        const product_id = "123crf";
+        const filter = { item_id: product_id };
         const update = { $set: {Brand:"Paracetamol"} };
         const result= await productModel.updateOne(filter, update);
         if (result.modifiedCount === 1) {

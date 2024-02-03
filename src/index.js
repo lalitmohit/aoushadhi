@@ -18,7 +18,9 @@ app.use(cors({
   credentials: true,
 }));
 
-const URL = process.env.CONNECTION_STRING_MDB;
+// const URL = "sdfdjk"
+// const URL = process.env.CONNECTION_STRING_MDB;
+const URL="mongodb+srv://lalitg:lalitgour@cluster0.gyxdnnb.mongodb.net/mernstack?retryWrites=true&w=majority"
 mongoose.connect(URL, {
   useNewUrlParser: true,
   // useUnifiedTopology:true

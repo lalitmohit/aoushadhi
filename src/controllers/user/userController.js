@@ -44,7 +44,7 @@ let refreshTokens = [];
 const ACCESS_TOKEN_SECRET = "4226f78d74d85a4c7596be9025ab403b53ddfa77fd2076f2d8ab83d701e6082f00f4c67f0922ddc94602aa70650cb749a606fbaa6a97609d34e6a97435f7a715"
 const REFRESH_TOKEN_SECRET = "5b16a4901825d723af457ebeef3c82ace3426ca720b7eee6a0513cc0943f2ad8b4e4a962f8693acd3c4c5a5259f2b411e562c0cfa708fefd8e24843d97c99025"
 
-export const loginUser = async (req, res, next) => {
+export const loginUser = async (req, res) => {
   try {
     const { userId, email, mobile, password } = req.body;
     const getUser = await userModel.findOne({ $or: [{ email: email }, { mobile: mobile }, { user_id: userId }] });
@@ -98,7 +98,57 @@ export const loginUser = async (req, res, next) => {
   }
 }
 
-export const token = async (req, res) => {
+export const user_update = async(req,res)=>{
+  try{
+    
+    const userId=req.body.userId;
+    const mobile = req.body.mobile;
+    const email = req.body.email;
+
+      console.log(userId);
+      console.log(mobile);
+      console.log(email);
+      const filter = { user_id: userId };
+      const update = { $set: {email:email,phone:mobile,} };
+      const result= await userModel.updateOne(filter, update);
+      if (result.modifiedCount === 1) {
+          console.log('details updated successfully');
+          return res.status(200).send("details updated Successfully")
+        } else {
+          console.log('user not found or no changes made');
+          return res.status(401).send("Error in updating ")
+        }
+  }catch(err){
+      return res.status(500).send({status:"false",error:err.message})
+  }
+}
+
+
+export const password_update = async(req,res)=>{
+  try{
+    
+    const userId=req.body.userId;
+    const new_password = req.body.new_password;
+      console.log(userId);
+
+      const filter = { user_id: userId };
+      const new_hashedpassword = await bcrypt.hash(new_password, saltRound);
+      const update = { $set: {password:new_hashedpassword} };
+      const result= await userModel.updateOne(filter, update);
+      if (result.modifiedCount === 1) {
+          console.log('password updated successfully');
+          return res.status(200).send("password updated Successfully")
+        } else {
+          console.log('user not found or no changes made');
+          return res.status(401).send("Error in updating ")
+        }
+  }catch(err){
+      return res.status(500).send({status:"false",error:err.message})
+  }
+}
+
+
+export const token = async (req,res)=>{
   const refreshToken = req.body.refreshToken
   if (refreshToken == null) return res.sendStatus(401)
   if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)

@@ -6,8 +6,9 @@ import {cartModel } from '../../models/cartModel.js';
 // import { authenticateToken } from "../../middlewares/auth.js";
 
 // import bcrypt from 'bcrypt';
-const userId= "12140970"
+// const userId= "12140970"
 export const cart_data_get = async (req,res)=>{
+  const userId = req.query.userId;
     try{
         const getUser =  await cartModel.find({user_id: userId});
         return res.json(getUser)
@@ -18,14 +19,16 @@ export const cart_data_get = async (req,res)=>{
 
 export const cart_data_post = async (req, res) => {
     try {
-    //   const { custid, email, mobile, password } = req.body;
+      const { user_id, cart_id, total_quantity, total_price } = req.body;
+      // const data = req.body;
       const data = {
-        user_id: "12140970",
-        cart_id:"kej2323",
-        total_quantity: "20",
-        total_price: "1000"
+        user_id: user_id,
+        cart_id:cart_id,
+        total_quantity: total_quantity,
+        total_price: total_price,
+        
       }
-    //   console.log(data);
+      console.log(data);
       await cartModel.create(data);
       return res.status(200).json({
         status: true,
@@ -57,7 +60,7 @@ export const cart_data_update = async(req,res)=>{
     try{
         const cart_id = "kej2323";
         const filter = { cart_id: cart_id };
-        const update = { $set: {total_quantity:"40"} };
+        const update = { $set: {total_quantity:"90"} };
         const result= await cartModel.updateOne(filter, update);
         if (result.modifiedCount === 1) {
             console.log('Document updated successfully');
