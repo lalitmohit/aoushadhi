@@ -4,17 +4,19 @@ import route from './routes/publicRoute.js';
 const app = express();
 import cors from 'cors';
 import mongoose from "mongoose";
+import cookieParser from 'cookie-parser';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Enable CORS middleware
 app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: 'GET, POST, PUT, DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
-    credentials: true,
-  }));
+  origin: 'http://localhost:3000',
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+  credentials: true,
+}));
 
 const URL = process.env.CONNECTION_STRING_MDB;
 mongoose.connect(URL, {
@@ -27,5 +29,5 @@ mongoose.connect(URL, {
 app.use('/', route);
 const PORT = 4000;
 app.listen(PORT || 4000, function () {
-    console.log('Express app running on port ' + (PORT||4000));
+  console.log('Express app running on port ' + (PORT || 4000));
 });
