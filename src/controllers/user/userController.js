@@ -47,16 +47,16 @@ const REFRESH_TOKEN_SECRET = "5b16a4901825d723af457ebeef3c82ace3426ca720b7eee6a0
 export const loginUser = async (req, res, next) => {
   try {
     const { userId, email, mobile, password } = req.body;
-    const getUser = await userModel.findOne({ $or: [{ email: email }, { mobile: mobile }, { user_id: userId }] });
-    console.log(getUser.password);
+    const getUser = await userModel.findOne({ $or: [{ email: email }, { phone: mobile }, { user_id: userId }] });
+    console.log(getUser);
     if (!getUser) {
-      return res.status(404).send({ status: true, message: "User does not exist!" });
+      return res.status(404).send({ status: false, message: "User does not exist!" });
     }
     const isPasswordMatch = await bcrypt.compare(password, getUser.password);
     console.log({ isPasswordMatch: isPasswordMatch })
     if (!isPasswordMatch) {
       console.log("Wrong Message");
-      return res.status(404).send({ status: true, message: "Wrong password!" });
+      return res.status(404).send({ status: false, message: "Wrong password!" });
     }
     // const secretKey = "XYZTWWWKJHDKJHDFKJHFKJBHFJFBJWSBJHGBCSJHGBJHDSGFBCJHSCGVBJHGBCSJ"
     // const refresh_secret_key = "5b16a4901825d723af457ebeef3c82ace3426ca720b7eee6a0513cc0943f2ad8b4e4a962f8693acd3c4c5a5259f2b411e562c0cfa708fefd8e24843d97c99025"
@@ -90,8 +90,8 @@ export const loginUser = async (req, res, next) => {
       });
       console.log("refresh token created successfully");
     }
-    
-    return res.status(200).send({ status: true, message: "OK"});
+
+    return res.status(200).send({ status: true, message: "OK" });
 
   } catch (err) {
     return res.status(500).send({ status: false, error: err.message });
