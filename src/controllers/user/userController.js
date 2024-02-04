@@ -47,8 +47,11 @@ const REFRESH_TOKEN_SECRET = "5b16a4901825d723af457ebeef3c82ace3426ca720b7eee6a0
 export const loginUser = async (req, res) => {
   try {
     const { userId, email, mobile, password } = req.body;
+    console.log(userId)
+    console.log(email)
+    console.log(password)
     const getUser = await userModel.findOne({ $or: [{ email: email }, { mobile: mobile }, { user_id: userId }] });
-    console.log(getUser.password);
+    console.log(getUser);
     if (!getUser) {
       return res.status(404).send({ status: true, message: "User does not exist!" });
     }
@@ -109,7 +112,7 @@ export const user_update = async(req,res)=>{
       console.log(mobile);
       console.log(email);
       const filter = { user_id: userId };
-      const update = { $set: {email:email,phone:mobile,} };
+      const update = { $set: {email:email,phone:mobile} };
       const result= await userModel.updateOne(filter, update);
       if (result.modifiedCount === 1) {
           console.log('details updated successfully');
@@ -130,6 +133,7 @@ export const password_update = async(req,res)=>{
     const userId=req.body.userId;
     const new_password = req.body.new_password;
       console.log(userId);
+      console.log(new_password)
 
       const filter = { user_id: userId };
       const new_hashedpassword = await bcrypt.hash(new_password, saltRound);
@@ -192,3 +196,4 @@ function generateRefreshToken(user) {
 //     res.status(404).send('Token not found in cookies');
 //   }
 // });
+
