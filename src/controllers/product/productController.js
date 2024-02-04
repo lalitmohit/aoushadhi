@@ -13,7 +13,6 @@ export const get_all_products = async(req,res)=>{
 
 export const product_data_get = async (req,res)=>{
     try{
-
         // const productId= "123crf";
         // const {productId} = req.body;
         const productId = req.query.productId;
@@ -32,6 +31,16 @@ export const product_data_post = async (req, res) => {
 
       const data = {
 
+
+        // item_id:"123crf12",
+        // user_id: "12140971",
+        // item_name: "PCM",
+        // Brand: "Cappllel1",
+        // manufacturing_date:"12/12/2024",
+        // expiry_date: "12/12/2025",
+        // price:"500",
+        // discount:"50",
+        // type:"Ayurveda2",
         productId:productId,
         userId:userId,
         product_name:product_name,

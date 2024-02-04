@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
 <<<<<<< HEAD
+<<<<<<< HEAD
     item_id:{type:String,required:true,unique:true},
     user_id: {type: String, required: true, unique: true},
     item_name: {type: String, required: true, unique: true},
@@ -21,6 +22,8 @@ const productSchema = new mongoose.Schema({
     document_required:{type:String,required:false},
     country:{type:String,required:false}
 =======
+=======
+>>>>>>> mohit_1
     productId:{type:String,required:true,unique:true},
     userId: {type: String, required: true, unique: true},
     product_name: {type: String, required: true},
@@ -39,7 +42,10 @@ const productSchema = new mongoose.Schema({
     // images:{type:Array,required:false},
     // document_required:{type:String,required:false},
     // country:{type:String,required:false}
+<<<<<<< HEAD
 >>>>>>> 8b20b3b (product API updated)
+=======
+>>>>>>> mohit_1
 
 }, { timestamps: true })
 
