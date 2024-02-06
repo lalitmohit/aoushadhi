@@ -188,11 +188,11 @@ export const token = async (req,res)=>{
 }
 
 function generateAccessToken(user) {
-  return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+  return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '5m' })
 }
 
 function generateRefreshToken(user) {
-  return jwt.sign(user, REFRESH_TOKEN_SECRET, { expiresIn: '30m' })
+  return jwt.sign(user, REFRESH_TOKEN_SECRET, { expiresIn: '5d' })
 }
 
 // // Route to set a token in cookies
