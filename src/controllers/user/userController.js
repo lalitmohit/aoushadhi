@@ -18,7 +18,7 @@ export const registerUser = async (req, res) => {
 
     const { userId, email, mobile, password } = req.body;
 
-    const isUserExist = await userModel.findOne({ $or: [{ email: email }, { mobile: mobile }, { user_id: userId }] });
+    const isUserExist = await userModel.findOne({ $or: [{ email: email }, { phone: mobile }, { user_id: userId }] });
     console.log({ isUserExist: isUserExist });
     if (isUserExist) {
       return res.status(200).send({ status: true, message: "User already exist!" });
@@ -51,7 +51,7 @@ export const loginUser = async (req, res) => {
     console.log(userId)
     console.log(email)
     console.log(password)
-    const getUser = await userModel.findOne({ $or: [{ email: email }, { mobile: mobile }, { user_id: userId }] });
+    const getUser = await userModel.findOne({ $or: [{ email: email }, { phone: mobile }, { user_id: userId }] });
 
     console.log(getUser);
     if (!getUser) {
