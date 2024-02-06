@@ -4,8 +4,7 @@ import { registerUser, loginUser ,token,user_update,password_update,user_account
 import { cart_data_get,cart_data_post,cart_data_del, cart_data_update} from '../controllers/cart/cartController.js';
 import { order_data_get,order_data_post,order_data_del} from '../controllers/order/orderController.js';
 import { product_data_get,product_data_post,product_data_update ,get_all_products} from '../controllers/product/productController.js';
-
-// import { authenticateToken } from "../../middlewares/auth.js";
+import { authenticateToken } from '../middlewares/auth.js';
 
 
 router.post('/register', registerUser);
@@ -21,7 +20,7 @@ router.put('/cart_data_update',cart_data_update);
 router.get('/order_data_get',order_data_get);
 router.post('/order_data_post',order_data_post);
 router.delete('/order_data_del',order_data_del);
-router.get('/product_data_get',product_data_get);
+router.get('/product_data_get', authenticateToken, product_data_get);
 router.post('/product_data_post',product_data_post);
 router.put('/product_data_update',product_data_update);
 router.get('/get_all_products',get_all_products);
