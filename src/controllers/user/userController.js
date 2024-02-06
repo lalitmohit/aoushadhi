@@ -48,10 +48,9 @@ export const loginUser = async (req, res) => {
   try {
     const { userId, email, mobile, password } = req.body;
 
-    console.log(userId)
-    console.log(email)
-    console.log(password)
-    const getUser = await userModel.findOne({ $or: [{ email: email }, { phone: mobile }, { user_id: userId }] });
+    console.log(userId, email, mobile);
+
+    const getUser = await userModel.findOne({ $or : [{ email: `${email}` }, { phone: `${mobile}` }, { user_id: `${userId}` }] });
 
     console.log(getUser);
     if (!getUser) {

@@ -20,8 +20,9 @@ app.use(cors({
 
 // const URL = "sdfdjk"
 // const URL = process.env.CONNECTION_STRING_MDB;
-const URL="mongodb+srv://lalitg:lalitgour@cluster0.gyxdnnb.mongodb.net/mernstack?retryWrites=true&w=majority"
-mongoose.connect(URL, {
+//const URL="mongodb+srv://lalitg:lalitgour@cluster0.gyxdnnb.mongodb.net/mernstack?retryWrites=true&w=majority"
+const URL = "mongodb+srv://root:Monkey_db%40123@cluster0.in2io.mongodb.net"
+mongoose.connect(process.env.CONNECTION_STRING_MDB || URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
