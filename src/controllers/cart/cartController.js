@@ -77,4 +77,3 @@ export const cart_data_update = async(req,res)=>{
     }
 }
 
-

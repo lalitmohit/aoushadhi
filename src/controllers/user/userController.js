@@ -154,6 +154,27 @@ export const password_update = async(req,res)=>{
   }
 }
 
+export const user_account_del = async(req,res)=>{
+  try{
+      // const item_id = "wker2434vc";
+      const userId = req.body.userId;
+      console.log(userId)
+      const result= await userModel.deleteOne({ user_id: userId });
+      if (result.deletedCount > 0) {
+          console.log("User Account deleted successfully");
+          return res.status(200).send("User Account Deleted Successfully")
+      } else {
+          console.log('No User found to delete');
+          return res.status(401).send("Couldn't delete user account ")
+      }
+  } catch(err){
+      return res.status(500).send({status:false,error:err.message});
+  }
+}
+
+// export const feedback = async (req,res)=>{
+//   const {userId,feeback} = req.body
+// }
 
 export const token = async (req,res)=>{
   const refreshToken = req.body.refreshToken
