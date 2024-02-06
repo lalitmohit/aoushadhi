@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const cartSchema = new mongoose.Schema({
-    user_id: {type: String, required: true, unique: true},
-    cart_id: {type: String, required: false, unique: true},
-    total_quantity: {type: String, required: false},
-    total_price: {type: String, required: false},
+    user_id: {type: String, required: true, unique: true, trim: true},
+    cart_id: {type: String, unique: true, trim: true},
+    total_quantity: {type: String, trim: true},
+    total_price: {type: String, trim: true},
     
 }, { timestamps: true })
 

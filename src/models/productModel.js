@@ -1,26 +1,25 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-
-
-    productId:{type:String,required:true,unique:true},
-    userId: {type: String, required: true, unique: true},
-    product_name: {type: String, required: true},
-    brand: {type: String, required: true},
-    // manufacturing_date:{type: Date, required: true},
-    // expiry_date: {type: Date, required: true},
-    price:{type: String,required:true},
-    // discount:{type: String,required:false},
-    // type:{type:String,required:false},
-    // item_dimension:{type:String,required:false},
-    // asin:{type:String,required:false},
-    // item_part_no:{type: String,required:false},
-    // item_weight:{type: String,required:false},
-    // quantity:{type:String,required:false},
-    // item_description:{type:String,required:false},
-    // images:{type:Array,required:false},
-    // document_required:{type:String,required:false},
-    // country:{type:String,required:false}
+    
+    productId:{type:String,required:true,unique:true, trim: true},
+    userId: {type: String, required: true, unique: true, trim: true},
+    product_name: {type: String, required: true, trim: true},
+    brand: {type: String, required: true, trim: true},
+    manufacturing_date:{type: Date, trim: true},
+    expiry_date: {type: Date, trim: true},
+    price:{type: String,required:true, trim: true},
+    discount:{type: String, trim: true},
+    type:{type:String, trim: true},
+    item_dimension:{type:String, trim: true},
+    asin:{type:String, trim: true},
+    item_part_no:{type: String, trim: true},
+    item_weight:{type: String, trim: true},
+    quantity:{type:String, trim: true},
+    item_description:{type:String, trim: true},
+    images:{type:Array, trim: true},
+    document_required:{type:String, trim: true},
+    country:{type:String, trim: true}
 
 }, { timestamps: true })
 
