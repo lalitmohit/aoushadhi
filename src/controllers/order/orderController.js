@@ -1,10 +1,14 @@
 import "dotenv/config";
 import {orderModel } from '../../models/orderModel.js';
+import { v4 as uuidv4 } from 'uuid';
 
-const userId= "12140970"
+// const userId= "12140970"
+
 export const order_data_get = async (req,res)=>{
     try{
-        const get_Order_data =  await orderModel.find({user_id: userId});
+        const vendor_Id = req.query.vendor_Id;
+        console.log(vendor_Id)
+        const get_Order_data =  await orderModel.find({vendor_Id: vendor_Id});
         return res.json(get_Order_data)
     }catch(err){
         return res.status(500).send({status:false,error:err.message})
@@ -13,14 +17,22 @@ export const order_data_get = async (req,res)=>{
 
 export const order_data_post = async (req, res) => {
     try {
-    //   const { custid, email, mobile, password } = req.body;
+      const { user_Id, vendor_Id, total_price, product_details, total_quantity, total_discount, status ,invoice_number } = req.body;
+      const order_Id= uuidv4();
+
       const data = {
-        user_id: "12140970",
-        order_id: "wker2434vc",
-        seller_id: "kjdsnf923u8",
-        shipper_id:"rhisip2939"
+        // write all the above declared variables in dictionary format
+        user_Id:user_Id,
+        order_Id:order_Id,
+        vendor_Id:vendor_Id,
+        total_price:total_price,
+        product_details:product_details,
+        total_quantity:total_quantity,
+        total_discount:total_discount,
+        status:status,
+        invoice_number:invoice_number
       }
-    //   console.log(data);
+      console.log(data);
       await orderModel.create(data);
       return res.status(200).json({
         status: true,
@@ -47,3 +59,4 @@ export const order_data_del = async(req,res)=>{
         return res.status(500).send({status:false,error:err.message});
     }
 }
+

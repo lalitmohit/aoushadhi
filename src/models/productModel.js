@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
     
     productId:{type:String,required:true,unique:true, trim: true},
-    userId: {type: String, required: true, unique: true, trim: true},
+    vendorId: {type: String, required: true, unique: true, trim: true},
     product_name: {type: String, required: true, trim: true},
     brand: {type: String, required: true, trim: true},
     manufacturing_date:{type: Date, trim: true},
@@ -19,7 +19,8 @@ const productSchema = new mongoose.Schema({
     item_description:{type:String, trim: true},
     images:{type:Array, trim: true},
     document_required:{type:String, trim: true},
-    country:{type:String, trim: true}
+    country:{type:String, trim: true},
+    published:{type:Boolean,default:false, trim: true}
 
 }, { timestamps: true })
 
