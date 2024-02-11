@@ -15,7 +15,7 @@ export const pay = async function (req, res) {
             "merchantId": process.env.MERCHANT_ID || "PGTESTPAYUAT",
             "merchantTransactionId": reqData.transactionId,
             "merchantUserId": reqData.merchantUserId,
-            "amount": reqData.amount * 100,
+            "amount": reqData.amount*100,
             "redirectUrl": `http://localhost:4000/status/${reqData.transactionId}`,
             "redirectMode": "POST",
             "mobileNumber": getUser.phone,
@@ -59,7 +59,7 @@ export const pay = async function (req, res) {
 
         const response = await axios.request(options)
             .then(function (response) {
-                console.log(response.data);
+                console.log( {pay:response.data});
                 console.log(response.data.data.instrumentResponse.redirectInfo.url);
                 return response.data;
             })
@@ -78,7 +78,7 @@ export const pay = async function (req, res) {
 }
 
 export const getPaymentStatus = async (req, res) => {
-    const userId = request.body.userId;
+    const userId = "1234568";
     const merchantTransactionId = res.req.body.transactionId
     const merchantId = res.req.body.merchantId
     const saltKey = process.env.SALT_KEY || "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
@@ -88,7 +88,7 @@ export const getPaymentStatus = async (req, res) => {
     const checksum = sha256 + "###" + keyIndex;
     const uat_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/";
     const prod_URL = "https://api.phonepe.com/apis/hermes/pg/v1/";
-
+    console.log(merchantTransactionId, merchantId);
     const options = {
         method: 'GET',
         url: uat_URL + `status/${merchantId}/${merchantTransactionId}`,
@@ -99,15 +99,18 @@ export const getPaymentStatus = async (req, res) => {
             'X-MERCHANT-ID': `${merchantId}`
         }
     };
-
+  
     const response = await axios.request(options);
     console.log(response.data);
     if (response.data.success) {
-        const getCartItems = await cartModel.find({ user_id: userId }).select({ _id: 0, cart_id: 0 });
-        console.log(getCartItems);
-        const createOrder = await orderModel.create(getCartItems);
+        console.log({userId: userId});
+        const getCartItems = await cartModel.find({ user_id: userId }).select({ _id: 0, cart_id: 0, _v:0 });
+        console.log({ getCartItems: getCartItems });
+        const createOrder = await orderModel.insertMany(getCartItems);
+        console.log({createOrder: createOrder});
         if (createOrder) {
-            const emptyCart = await userModel.updateMany({ user_id: userId }, { isDeleted: true, deletedAt: new Date() });
+            const emptyCart = await cartModel.updateMany({ user_id: userId }, { isDeleted: true, deletedAt: new Date() });
+            console.log({emptyCart: emptyCart});
             if (emptyCart) {
                 const url = `http://localhost:3000/success`
                 return res.redirect(url);

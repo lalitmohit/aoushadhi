@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    user_id: {type: String, unique: true, trim: true},
+    user_id: {type: String, trim: true},
     order_id: {type: String, unique: true, trim: true},
     items: [{
         product_id: {type:String, ref:"Product", required:true},
-        quantity: {type:Number,required:true, min :1},
+        quantity: {type:Number, default: 1},
         price: {type: Number, required: true},
         _id:0
       }],

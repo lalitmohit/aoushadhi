@@ -10,7 +10,7 @@ import {cartModel } from '../../models/cartModel.js';
 export const cart_data_get = async (req,res)=>{
   const userId = req.query.userId;
     try{
-        const getUser =  await cartModel.find({user_id: userId});
+        const getUser =  await cartModel.find({user_id: userId, isDeleted: false});
         return res.json(getUser)
     }catch(err){
         return res.status(500).send({status:false,error:err.message})
@@ -47,10 +47,10 @@ export const cart_data_post = async (req, res) => {
 export const cart_data_del = async(req,res)=>{
     try{
       const cart_id = req.query.cart_id;
-      const user_id = req.query.user_id
+      const user_id = req.query.user_id;
         console.log(cart_id);
         console.log(user_id);
-        const result= await cartModel.deleteOne({ cart_id: cart_id ,user_id:user_id});
+        const result= await cartModel.deleteOne({ cart_id: cart_id, user_id:user_id});
         if (result.deletedCount > 0) {
             console.log(`${result.deletedCount} documents deleted successfully`);
             return res.status(200).send("Cart Deleted Successfully")
