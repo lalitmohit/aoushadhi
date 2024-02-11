@@ -19,8 +19,9 @@ const productSchema = new mongoose.Schema({
     item_description:{type:String, trim: true},
     images:{type:Array, trim: true},
     document_required:{type:String, trim: true},
-    country:{type:String, trim: true}
-
+    country:{type:String, trim: true},
+    isDeleted: {type:Boolean, default: false},
+    deletedAt: {type:Date, trim:true, default:null}
 }, { timestamps: true })
 
 export const productModel = mongoose.model('product_data', productSchema);

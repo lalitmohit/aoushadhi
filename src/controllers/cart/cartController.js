@@ -19,14 +19,18 @@ export const cart_data_get = async (req,res)=>{
 
 export const cart_data_post = async (req, res) => {
     try {
-      const { user_id, cart_id, total_quantity, total_price } = req.body;
+      const { user_id, cart_id, total_quantity, total_price, product_id, price } = req.body;
       // const data = req.body;
       const data = {
         user_id: user_id,
         cart_id:cart_id,
+        items: [{
+          product_id: product_id,
+          price: price,
+          _id:0
+        }],
         total_quantity: total_quantity,
         total_price: total_price,
-        
       }
       console.log(data);
       await cartModel.create(data);
