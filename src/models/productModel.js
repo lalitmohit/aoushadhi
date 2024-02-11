@@ -20,7 +20,9 @@ const productSchema = new mongoose.Schema({
     images:{type:Array, trim: true},
     document_required:{type:String, trim: true},
     country:{type:String, trim: true},
-    published:{type:Boolean,default:false, trim: true}
+    published:{type:Boolean,default:false, trim: true},
+    isDeleted: {type:Boolean, default: false},
+    deletedAt: {type:Date, trim:true, default:null}
 
 }, { timestamps: true })
 

@@ -44,19 +44,19 @@ export const order_data_post = async (req, res) => {
     }
   }
 
-export const order_data_del = async(req,res)=>{
-    try{
-        const order_id = "wker2434vc";
-        const result= await orderModel.deleteOne({ order_id: order_id });
-        if (result.deletedCount > 0) {
-            console.log("Order info deleted successfully");
-            return res.status(200).send("Order info Deleted Successfully")
-        } else {
-            console.log('No documents found to delete');
-            return res.status(401).send("Couldn't delete order info")
-        }
-    } catch(err){
-        return res.status(500).send({status:false,error:err.message});
+export const order_data_del = async (req, res) => {
+  try {
+    const order_id = "wker2434vc";
+    const result = await orderModel.deleteOne({ order_id: order_id });
+    if (result.deletedCount > 0) {
+      console.log("Order info deleted successfully");
+      return res.status(200).send("Order info Deleted Successfully")
+    } else {
+      console.log('No documents found to delete');
+      return res.status(401).send("Couldn't delete order info")
     }
+  } catch (err) {
+    return res.status(500).send({ status: false, error: err.message });
+  }
 }
 

@@ -10,7 +10,7 @@ import {cartModel } from '../../models/cartModel.js';
 export const cart_data_get = async (req,res)=>{
   const userId = req.query.userId;
     try{
-        const getUser =  await cartModel.find({user_id: userId});
+        const getUser =  await cartModel.find({user_id: userId, isDeleted: false});
         return res.json(getUser)
     }catch(err){
         return res.status(500).send({status:false,error:err.message})
@@ -19,14 +19,18 @@ export const cart_data_get = async (req,res)=>{
 
 export const cart_data_post = async (req, res) => {
     try {
-      const { user_id, cart_id, total_quantity, total_price } = req.body;
+      const { user_id, cart_id, total_quantity, total_price, product_id, price } = req.body;
       // const data = req.body;
       const data = {
         user_id: user_id,
         cart_id:cart_id,
+        items: [{
+          product_id: product_id,
+          price: price,
+          _id:0
+        }],
         total_quantity: total_quantity,
         total_price: total_price,
-        
       }
       console.log(data);
       await cartModel.create(data);
@@ -43,10 +47,10 @@ export const cart_data_post = async (req, res) => {
 export const cart_data_del = async(req,res)=>{
     try{
       const cart_id = req.query.cart_id;
-      const user_id = req.query.user_id
+      const user_id = req.query.user_id;
         console.log(cart_id);
         console.log(user_id);
-        const result= await cartModel.deleteOne({ cart_id: cart_id ,user_id:user_id});
+        const result= await cartModel.deleteOne({ cart_id: cart_id, user_id:user_id});
         if (result.deletedCount > 0) {
             console.log(`${result.deletedCount} documents deleted successfully`);
             return res.status(200).send("Cart Deleted Successfully")
