@@ -11,8 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Enable CORS middleware
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000', // Add the second port here
+];
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: allowedOrigins,
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type, Authorization',
   credentials: true,

@@ -28,6 +28,7 @@ export const product_data_get = async (req,res)=>{
 export const get_products_by_vendor_Id = async(req,res)=>{
   try{
     const vendorId = req.query.vendorId;
+    console.log(vendorId);
     const get_products_by_vendor_Id = await productModel.find({vendorId: vendorId});
     return res.json(get_products_by_vendor_Id)
   }catch(err){
@@ -52,8 +53,10 @@ export const product_data_post = async (req, res) => {
         manufacturing_date:manufacturing_date,
         expiry_date:expiry_date,
         description:description,
-        images:[]
-
+        images:[],
+        isDeleted:"false",
+        deletedAt:null,
+        published:false
       }
       console.log(data);
       await productModel.create(data);
@@ -86,9 +89,20 @@ export const product_data_del = async(req,res)=>{
 
 export const product_data_update = async(req,res)=>{
     try{
-        const product_id = "123crf";
-        const filter = { item_id: product_id };
-        const update = { $set: {Brand:"Paracetamol"} };
+        const productId = req.body.productId;
+        const product_name = req.body.product_name;
+        const brand = req.body.brand;
+        const price = req.body.price;
+        const discount = req.body.discount;
+        const type = req.body.type;
+        const manufacturing_date = req.body.manufacturing_date;
+        const expiry_date = req.body.expiry_date;
+        const description = req.body.description;              
+        const filter = { productId: productId };
+        const update = { $set: {product_name:product_name,brand:brand,price:price,discount:discount,type:type,manufacturing_date:manufacturing_date,expiry_date:expiry_date,description:description} };
+
+        // const filter = { item_id: product_id };
+        // const update = { $set: {Brand:"Paracetamol"} };
         const result= await productModel.updateOne(filter, update);
         if (result.modifiedCount === 1) {
             console.log('product updated successfully');

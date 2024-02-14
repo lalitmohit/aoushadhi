@@ -1,10 +1,15 @@
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import "dotenv/config";
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { userModel } from '../../models/userModel.js';
 import { orderModel } from '../../models/orderModel.js';
 import { cartModel } from '../../models/cartModel.js';
+
+// ############# PHONE PE #################
+const MERCHANT_ID="PGTESTPAYUAT"
+const SALT_KEY="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
 
 export const pay = async function (req, res) {
     try {
@@ -12,7 +17,7 @@ export const pay = async function (req, res) {
         const getUser = await userModel.findOne({ user_id: reqData.userId }).select({ phone: 1 });
         console.log(getUser);
         const data = {
-            "merchantId": process.env.MERCHANT_ID || "PGTESTPAYUAT",
+            "merchantId": MERCHANT_ID || "PGTESTPAYUAT",
             "merchantTransactionId": reqData.transactionId,
             "merchantUserId": reqData.merchantUserId,
             "amount": reqData.amount*100,
@@ -33,7 +38,7 @@ export const pay = async function (req, res) {
          */
 
         const payload = Buffer.from(JSON.stringify(data)).toString('base64');
-        const saltKey = process.env.SALT_KEY || "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
+        const saltKey = SALT_KEY || "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
         const saltIndex = 1;
         const sha256 = CryptoJS.SHA256(payload + "/pg/v1/pay" + saltKey)
         const checksum = sha256 + '###' + saltIndex
@@ -81,7 +86,7 @@ export const getPaymentStatus = async (req, res) => {
     const userId = "1234568";
     const merchantTransactionId = res.req.body.transactionId
     const merchantId = res.req.body.merchantId
-    const saltKey = process.env.SALT_KEY || "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
+    const saltKey = SALT_KEY || "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
     const keyIndex = 1;
     const string = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + saltKey;
     const sha256 = CryptoJS.SHA256(string)

@@ -46,11 +46,11 @@ export const cart_data_post = async (req, res) => {
 
 export const cart_data_del = async(req,res)=>{
     try{
-      const cart_id = req.query.cart_id;
+      // const cart_id = req.query.cart_id;
       const user_id = req.query.user_id;
-        console.log(cart_id);
+        // console.log(cart_id);
         console.log(user_id);
-        const result= await cartModel.deleteOne({ cart_id: cart_id, user_id:user_id});
+        const result= await cartModel.deleteOne({  user_id:user_id});
         if (result.deletedCount > 0) {
             console.log(`${result.deletedCount} documents deleted successfully`);
             return res.status(200).send("Cart Deleted Successfully")

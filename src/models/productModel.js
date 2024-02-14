@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
     
     productId:{type:String,required:true,unique:true, trim: true},
-    vendorId: {type: String, required: true, unique: true, trim: true},
+    vendorId: {type: String, required: true, trim: true},
     product_name: {type: String, required: true, trim: true},
     brand: {type: String, required: true, trim: true},
     manufacturing_date:{type: Date, trim: true},
@@ -26,4 +26,4 @@ const productSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-export const productModel = mongoose.model('product_data', productSchema);
+export const productModel = mongoose.model('lalit_product_check_1', productSchema);
