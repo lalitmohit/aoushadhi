@@ -39,12 +39,12 @@ export const get_products_by_vendor_Id = async(req,res)=>{
 
 export const product_data_post = async (req, res) => {
     try {
-      const { vendorId,product_name,brand,description,manufacturing_date,expiry_date,discount,type,price} = req.body;
+      const { userId,product_name,brand,description,manufacturing_date,expiry_date,discount,type,price} = req.body;
     
       const productId = uuidv4();
       const data = {
         productId:productId,
-        vendorId:vendorId,
+        userId:userId,
         product_name:product_name,
         brand:brand,
         price:price,

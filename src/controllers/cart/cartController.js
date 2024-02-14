@@ -19,11 +19,10 @@ export const cart_data_get = async (req,res)=>{
 
 export const cart_data_post = async (req, res) => {
     try {
-      const { user_id, cart_id, total_quantity, total_price, product_id, price } = req.body;
+      const { user_id,  total_quantity, total_price, product_id, price,product_name } = req.body;
       // const data = req.body;
       const data = {
         user_id: user_id,
-        cart_id:cart_id,
         items: [{
           product_id: product_id,
           price: price,
@@ -31,6 +30,7 @@ export const cart_data_post = async (req, res) => {
         }],
         total_quantity: total_quantity,
         total_price: total_price,
+        product_name: product_name,
       }
       console.log(data);
       await cartModel.create(data);
@@ -65,8 +65,9 @@ export const cart_data_del = async(req,res)=>{
 
 export const cart_data_update = async(req,res)=>{
     try{
-        const cart_id = "kej2323";
-        const filter = { cart_id: cart_id };
+        // const cart_id = "kej2323";
+        const user_id = req.query.user_id;
+        const filter = { user_id: user_id };
         const update = { $set: {total_quantity:"90"} };
         const result= await cartModel.updateOne(filter, update);
         if (result.modifiedCount === 1) {

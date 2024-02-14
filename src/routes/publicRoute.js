@@ -3,7 +3,7 @@ const router = express();
 import { registerUser, loginUser ,token,user_update,password_update,user_account_del} from '../controllers/user/userController.js';
 import { cart_data_get,cart_data_post,cart_data_del, cart_data_update} from '../controllers/cart/cartController.js';
 import { order_data_get,order_data_post,order_data_del} from '../controllers/order/orderController.js';
-import {rateLimiter} from '../middlewares/auth.js';
+// import {rateLimiter} from '../middlewares/auth.js';
 import { product_data_get,product_data_post,product_data_update ,get_all_products,get_products_by_vendor_Id} from '../controllers/product/productController.js';
 // import { authenticateToken } from '../middlewares/auth.js';
 import { pay, getPaymentStatus } from '../controllers/payment/paymentController.js';

@@ -1,8 +1,8 @@
 import "dotenv/config";
 import jwt from 'jsonwebtoken';
-import Redis from 'ioredis';
+// import Redis from 'ioredis';
 
-const redis = new Redis();
+// const redis = new Redis();
 
 // Now you can use the `redis` object to interact with your Redis server
 
@@ -151,60 +151,60 @@ export const authenticateToken = async (req, res, next) => {
 // };
 
 
-export const rateLimiter = async (req, res, next) => {
-    const ipAddress = req.ip;
-    console.log("Hitting rateLimiter");
+// export const rateLimiter = async (req, res, next) => {
+//     const ipAddress = req.ip;
+//     console.log("Hitting rateLimiter");
 
-    const loginAttemptsKey = `login_attempts:${ipAddress}`;
-    const blockKey = `block_user:${ipAddress}`;
-    const rateLimit = 5; // Number of login attempts allowed per minute
-    const refillRate = 1; // Login attempts added per second
-    const blockDuration = 60; // Block user for 1 minute (in seconds)
+//     const loginAttemptsKey = `login_attempts:${ipAddress}`;
+//     const blockKey = `block_user:${ipAddress}`;
+//     const rateLimit = 5; // Number of login attempts allowed per minute
+//     const refillRate = 1; // Login attempts added per second
+//     const blockDuration = 60; // Block user for 1 minute (in seconds)
 
-    // Leaky Bucket Algorithm
-    let currentTimestamp = Math.floor(Date.now() / 1000);
+//     // Leaky Bucket Algorithm
+//     let currentTimestamp = Math.floor(Date.now() / 1000);
 
-    // Check if the user is already blocked
-    const blockedUntil = await redis.get(blockKey);
-    if (blockedUntil && blockedUntil > currentTimestamp) {
-        console.log("User is blocked");
-        res.status(429).json({ error: 'Too Many Requests. User is blocked' });
-        return;
-    }
+//     // Check if the user is already blocked
+//     const blockedUntil = await redis.get(blockKey);
+//     if (blockedUntil && blockedUntil > currentTimestamp) {
+//         console.log("User is blocked");
+//         res.status(429).json({ error: 'Too Many Requests. User is blocked' });
+//         return;
+//     }
 
-    // Check the number of login attempts
-    const loginAttempts = await redis.get(loginAttemptsKey) || 0;
-    const lastAttemptTimestamp = await redis.get(`${loginAttemptsKey}:timestamp`) || 0;
-    const timeElapsed = currentTimestamp - lastAttemptTimestamp;
+//     // Check the number of login attempts
+//     const loginAttempts = await redis.get(loginAttemptsKey) || 0;
+//     const lastAttemptTimestamp = await redis.get(`${loginAttemptsKey}:timestamp`) || 0;
+//     const timeElapsed = currentTimestamp - lastAttemptTimestamp;
 
-    // If the user was blocked and the block duration has passed, unblock the user
-    if (timeElapsed >= blockDuration) {
-        await redis.del(blockKey);
-        await redis.del(loginAttemptsKey);
-        console.log(`Unblocked user ${ipAddress}`);
-    }
+//     // If the user was blocked and the block duration has passed, unblock the user
+//     if (timeElapsed >= blockDuration) {
+//         await redis.del(blockKey);
+//         await redis.del(loginAttemptsKey);
+//         console.log(`Unblocked user ${ipAddress}`);
+//     }
 
-    // Calculate attemptsToAdd based on the refillRate
-    const attemptsToAdd = timeElapsed * refillRate;
-    const currentAttempts = Math.min(rateLimit, Math.ceil(attemptsToAdd));
+//     // Calculate attemptsToAdd based on the refillRate
+//     const attemptsToAdd = timeElapsed * refillRate;
+//     const currentAttempts = Math.min(rateLimit, Math.ceil(attemptsToAdd));
 
-    console.log("Current Timestamp:", currentTimestamp);
-    console.log("Login Attempts:", loginAttempts);
-    console.log("Time Elapsed:", timeElapsed);
-    console.log("Attempts To Add:", attemptsToAdd);
-    console.log("Current Attempts:", currentAttempts);
+//     console.log("Current Timestamp:", currentTimestamp);
+//     console.log("Login Attempts:", loginAttempts);
+//     console.log("Time Elapsed:", timeElapsed);
+//     console.log("Attempts To Add:", attemptsToAdd);
+//     console.log("Current Attempts:", currentAttempts);
 
-    // If there are enough attempts, block the user
-    if (currentAttempts >= rateLimit) {
-        // Block the user for the specified duration
-        await redis.set(blockKey, currentTimestamp + blockDuration);
-        console.log(`Blocked user ${ipAddress} for ${blockDuration} seconds`);
-        res.status(429).json({ error: 'Too Many Requests. User is blocked' });
-    } else {
-        // Increment the login attempts counter and update the timestamp
-        await redis.incr(loginAttemptsKey);
-        await redis.set(`${loginAttemptsKey}:timestamp`, currentTimestamp);
-        console.log(`Incremented login attempts for ${ipAddress}`);
-        next();
-    }
-};
+//     // If there are enough attempts, block the user
+//     if (currentAttempts >= rateLimit) {
+//         // Block the user for the specified duration
+//         await redis.set(blockKey, currentTimestamp + blockDuration);
+//         console.log(`Blocked user ${ipAddress} for ${blockDuration} seconds`);
+//         res.status(429).json({ error: 'Too Many Requests. User is blocked' });
+//     } else {
+//         // Increment the login attempts counter and update the timestamp
+//         await redis.incr(loginAttemptsKey);
+//         await redis.set(`${loginAttemptsKey}:timestamp`, currentTimestamp);
+//         console.log(`Incremented login attempts for ${ipAddress}`);
+//         next();
+//     }
+// };
